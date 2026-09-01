@@ -1,110 +1,240 @@
-\# Day 1 — Basic Logic Gates
+\# 🔌 Day 1 — Basic Logic Gates
 
 
 
-\## Overview
+> \*\*30-Day FPGA Challenge | Digital Logic Design with Verilog HDL\*\*
 
 
 
-For Day 1 of my 30-Day FPGA Challenge, I implemented basic combinational logic using Verilog HDL and tested the design on the PYNQ-Z2 FPGA development board.
+!\[FPGA](https://img.shields.io/badge/FPGA-PYNQ--Z2-blue)
 
+!\[HDL](https://img.shields.io/badge/HDL-Verilog-orange)
 
+!\[Tool](https://img.shields.io/badge/Tool-Vivado%202026.1-red)
 
-\## Gates Implemented
+!\[Day](https://img.shields.io/badge/Challenge-Day%201-success)
 
 
 
-\- AND
+\---
 
-\- NOT
 
-\- NAND
 
-\- XOR
+\## 📌 Overview
 
 
 
-\## Tools \& Hardware
+Welcome to \*\*Day 1 of my 30-Day FPGA Challenge\*\*.
 
 
 
-\- HDL: Verilog
+Today I started with the fundamentals of digital hardware design by implementing and verifying \*\*basic combinational logic gates using Verilog HDL\*\*.
 
-\- FPGA Board: PYNQ-Z2
 
-\- FPGA Tool: AMD Vivado 2026.1
 
-\- Verification: Verilog Testbench
+The designs were simulated, synthesized, implemented, converted into a bitstream, and finally tested on the \*\*PYNQ-Z2 FPGA development board\*\*.
 
-\- Implementation: FPGA synthesis, implementation and bitstream generation
 
 
+This exercise establishes the foundation for understanding how simple Boolean logic is translated from \*\*HDL code → FPGA hardware\*\*.
 
-\## Design Flow
 
 
+\---
 
-Verilog RTL
 
-↓
 
-Testbench
+\## 🎯 Objectives
 
-↓
 
-Behavioral Simulation
 
-↓
+\- Understand the fundamentals of combinational logic.
 
-RTL Analysis
+\- Implement basic logic gates using \*\*Verilog HDL\*\*.
 
-↓
+\- Create a Verilog testbench for functional verification.
 
-Synthesis
+\- Simulate and analyze the RTL design.
 
-↓
+\- Perform FPGA synthesis and implementation.
 
-Implementation
+\- Generate a programming bitstream.
 
-↓
+\- Deploy the design onto the \*\*PYNQ-Z2\*\*.
 
-Bitstream Generation
+\- Verify the physical hardware outputs using LEDs.
 
-↓
 
-PYNQ-Z2 Hardware Testing
 
+\---
 
 
-\## Verification
 
+\## 🧩 Logic Gates Implemented
 
 
-The design was verified using a Verilog testbench by applying different combinations of inputs A and B.
 
+| Gate | Function | Verilog Operator |
 
+|------|----------|------------------|
 
-The synthesized design was inspected to understand how the logic was mapped to FPGA resources such as LUTs and I/O buffers.
+| AND  | `Y = A · B` | `\&` |
 
+| NOT  | `Y = \~A` | `\~` |
 
+| NAND | `Y = \~(A · B)` | `\~\&` |
 
-\## Hardware Implementation
+| XOR  | `Y = A ⊕ B` | `^` |
 
 
 
-The generated bitstream was programmed onto the PYNQ-Z2 and the outputs were verified using inputs and LEDs.
+\### Truth Table
 
 
 
-\## Files
+| A | B | AND | NAND | XOR |
 
+|:-:|:-:|:---:|:----:|:---:|
 
+| 0 | 0 |  0  |  1   |  0  |
 
-\- `rtl/` — Verilog design
+| 0 | 1 |  0  |  1   |  1  |
 
-\- `testbench/` — Verilog testbench
+| 1 | 0 |  0  |  1   |  1  |
 
-\- `constraints/` — PYNQ-Z2 XDC constraints
+| 1 | 1 |  1  |  0   |  0  |
 
-\- `screenshots/` — Simulation, RTL, synthesis and hardware results
+
+
+For the \*\*NOT gate\*\*, the output is:
+
+
+
+| A | NOT |
+
+|:-:|:---:|
+
+| 0 |  1  |
+
+| 1 |  0  |
+
+
+
+\---
+
+
+
+\## 🛠️ Tools \& Hardware
+
+
+
+\### Hardware
+
+
+
+\- \*\*FPGA Board:\*\* PYNQ-Z2
+
+\- \*\*Device:\*\* Zynq-7000 SoC
+
+
+
+\### Software
+
+
+
+\- \*\*HDL:\*\* Verilog
+
+\- \*\*FPGA Design Tool:\*\* AMD Vivado 2026.1
+
+\- \*\*Simulation:\*\* Vivado Behavioral Simulation
+
+\- \*\*Verification:\*\* Verilog Testbench
+
+\- \*\*Implementation:\*\* Vivado Synthesis \& Implementation
+
+
+
+\---
+
+
+
+\## 🔄 FPGA Design Flow
+
+
+
+The complete design flow followed for this project was:
+
+
+
+```text
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │   Verilog RTL        │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │    Testbench         │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │    Simulation        │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │   RTL Analysis       │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │    Synthesis         │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │  Implementation      │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │ Bitstream (.bit)     │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │   PYNQ-Z2 FPGA       │
+
+&#x20;       └────────┬────────┘
+
+&#x20;                   ↓
+
+&#x20;       ┌─────────────────┐
+
+&#x20;       │ Hardware Verify      │
+
+&#x20;       └─────────────────┘
 
