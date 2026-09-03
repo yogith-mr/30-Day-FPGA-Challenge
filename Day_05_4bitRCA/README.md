@@ -28,7 +28,7 @@ Day 5 focuses on designing and verifying a \*\*4-bit Ripple Carry Adder (RCA)\*\
 
 
 
-A Ripple Carry Adder is a combinational circuit that performs binary addition of two 4-bit numbers along with an optional carry input.
+A Ripple Carry Adder is a combinational circuit used to perform binary addition of two 4-bit numbers along with an optional carry input.
 
 
 
@@ -36,7 +36,7 @@ The design is constructed by cascading \*\*four 1-bit Full Adders\*\*. The carry
 
 
 
-The \*\*1-bit Full Adder developed during Day 4\*\* was reused as a building block for this design.
+The Full Adder module developed during \*\*Day 4\*\* was reused as a building block for the 4-bit Ripple Carry Adder.
 
 
 
@@ -54,11 +54,11 @@ The design was simulated, synthesized, implemented, converted into a bitstream, 
 
 \- Design a 4-bit Ripple Carry Adder using Verilog HDL.
 
-\- Reuse the previously designed 1-bit Full Adder.
+\- Reuse the previously designed 1-bit Full Adder module.
 
-\- Understand modular and hierarchical RTL design.
+\- Understand hierarchical and modular RTL design.
 
-\- Understand carry propagation between Full Adder stages.
+\- Understand carry propagation between Full Adders.
 
 \- Create a Verilog testbench for functional verification.
 
@@ -66,7 +66,7 @@ The design was simulated, synthesized, implemented, converted into a bitstream, 
 
 \- Verify carry generation and propagation.
 
-\- Analyze simulation waveforms.
+\- Analyze the simulation waveform.
 
 \- Perform synthesis and implementation in Vivado.
 
@@ -116,27 +116,19 @@ C\_out    → Final carry output
 
 
 
-\---
-
-
-
-\## ⚙️ Operation
-
-
-
-The 4-bit Ripple Carry Adder performs the following operation:
+The overall operation is:
 
 
 
 ```text
 
-A + B + C\_in
+A + B + C\_in = C\_out · Sum
 
 ```
 
 
 
-The complete result is represented using \*\*5 bits\*\*:
+Since two 4-bit numbers can produce a 5-bit result, the final result is represented as:
 
 
 
@@ -148,121 +140,83 @@ C\_out + Sum\[3:0]
 
 
 
-For example:
-
-
-
-```text
-
-&#x20;  A    = 1010
-
-&#x20;  B    = 0101
-
-&#x20;  C\_in =    1
-
-&#x20;  ------------
-
-&#x20;         10000
-
-```
-
-
-
-Therefore:
-
-
-
-```text
-
-Sum   = 0000
-
-C\_out = 1
-
-```
-
-
-
-The carry generated at each bit position is passed to the next Full Adder stage.
-
-
-
 \---
 
 
 
-\## 🏗️ Architecture
+\## 🏗️ Ripple Carry Adder Architecture
 
 
 
-The 4-bit Ripple Carry Adder consists of \*\*four 1-bit Full Adders connected in cascade\*\*.
+The 4-bit Ripple Carry Adder is constructed using four 1-bit Full Adder instances.
 
 
 
 ```text
 
-&#x20;                        C\_in
+&#x20;               C\_in
 
-&#x20;                          │
+&#x20;                 │
 
-&#x20;                          ▼
+&#x20;                 ▼
 
-&#x20;                   ┌─────────────┐
+&#x20;            ┌─────────┐
 
-&#x20;       A\[0] ──────►│             │
+A\[0] ───────►│         │
 
-&#x20;       B\[0] ──────►│     FA0     │──────► Sum\[0]
+B\[0] ───────►│   FA0   │──────► Sum\[0]
 
-&#x20;                   │             │
+&#x20;            │         │
 
-&#x20;                   └──────┬──────┘
+&#x20;            └────┬────┘
 
-&#x20;                          │ C1
+&#x20;                 │ C1
 
-&#x20;                          ▼
+&#x20;                 ▼
 
-&#x20;                   ┌─────────────┐
+&#x20;            ┌─────────┐
 
-&#x20;       A\[1] ──────►│             │
+A\[1] ───────►│         │
 
-&#x20;       B\[1] ──────►│     FA1     │──────► Sum\[1]
+B\[1] ───────►│   FA1   │──────► Sum\[1]
 
-&#x20;                   │             │
+&#x20;            │         │
 
-&#x20;                   └──────┬──────┘
+&#x20;            └────┬────┘
 
-&#x20;                          │ C2
+&#x20;                 │ C2
 
-&#x20;                          ▼
+&#x20;                 ▼
 
-&#x20;                   ┌─────────────┐
+&#x20;            ┌─────────┐
 
-&#x20;       A\[2] ──────►│             │
+A\[2] ───────►│         │
 
-&#x20;       B\[2] ──────►│     FA2     │──────► Sum\[2]
+B\[2] ───────►│   FA2   │──────► Sum\[2]
 
-&#x20;                   │             │
+&#x20;            │         │
 
-&#x20;                   └──────┬──────┘
+&#x20;            └────┬────┘
 
-&#x20;                          │ C3
+&#x20;                 │ C3
 
-&#x20;                          ▼
+&#x20;                 ▼
 
-&#x20;                   ┌─────────────┐
+&#x20;            ┌─────────┐
 
-&#x20;       A\[3] ──────►│             │
+A\[3] ───────►│         │
 
-&#x20;       B\[3] ──────►│     FA3     │──────► Sum\[3]
+B\[3] ───────►│   FA3   │──────► Sum\[3]
 
-&#x20;                   │             │
+&#x20;            │         │
 
-&#x20;                   └──────┬──────┘
+&#x20;            └────┬────┘
 
-&#x20;                          │
+&#x20;                 │
 
-&#x20;                          ▼
+&#x20;                 ▼
 
-&#x20;                        C\_out
+&#x20;               C\_out
 
 ```
 
@@ -280,19 +234,7 @@ C\_in → FA0 → C1 → FA1 → C2 → FA2 → C3 → FA3 → C\_out
 
 
 
-Each Full Adder processes one bit of the addition.
-
-
-
-The carry generated by one stage becomes the carry input of the next stage.
-
-
-
-This carry propagation from the LSB toward the MSB gives the circuit its name:
-
-
-
-\*\*Ripple Carry Adder\*\*
+The carry generated by each Full Adder becomes the carry input of the next Full Adder. This propagation of carry through the stages gives the circuit its name: \*\*Ripple Carry Adder\*\*.
 
 
 
@@ -300,63 +242,129 @@ This carry propagation from the LSB toward the MSB gives the circuit its name:
 
 
 
-\## 🔗 Full Adder Reuse
+\## 🔗 Full Adder Module Reuse
 
 
 
-The \*\*1-bit Full Adder developed during Day 4\*\* was reused as the fundamental building block of the Day 5 Ripple Carry Adder.
-
-
-
-```text
-
-&#x20;            1-Bit Full Adder
-
-&#x20;                   │
-
-&#x20;       ┌───────────┼───────────┐
-
-&#x20;       ▼           ▼           ▼
-
-&#x20;      FA0         FA1         FA2        FA3
-
-&#x20;       │           │           │          │
-
-&#x20;       └───────────┴───────────┴──────────┘
-
-&#x20;                   │
-
-&#x20;            4-Bit RCA Output
-
-```
-
-
-
-The four Full Adder stages operate as follows:
+The \*\*1-bit Full Adder developed during Day 4\*\* was reused in this project.
 
 
 
 ```text
 
-FA0 → A\[0] + B\[0] + C\_in → Sum\[0] + C1
+Day 4
 
+&#x20; │
 
+&#x20; └── fulladder.v
 
-FA1 → A\[1] + B\[1] + C1   → Sum\[1] + C2
+&#x20;         │
 
+&#x20;         ▼
 
+&#x20;      Day 5
 
-FA2 → A\[2] + B\[2] + C2   → Sum\[2] + C3
+&#x20;         │
 
+&#x20;         └── RCAdder4.v
 
+&#x20;                │
 
-FA3 → A\[3] + B\[3] + C3   → Sum\[3] + C\_out
+&#x20;                ├── fa0
+
+&#x20;                ├── fa1
+
+&#x20;                ├── fa2
+
+&#x20;                └── fa3
 
 ```
 
 
 
-This demonstrates \*\*modular and hierarchical RTL design\*\*, where an already verified smaller module can be reused to create a larger digital system.
+Reusing a previously verified module demonstrates \*\*modular and hierarchical RTL design\*\*, which is an important concept in digital hardware development.
+
+
+
+\---
+
+
+
+\## 💻 Verilog Implementation
+
+
+
+The 4-bit Ripple Carry Adder was implemented by instantiating four 1-bit Full Adder modules.
+
+
+
+```verilog
+
+module RCAdder4(Sum,C\_out,A,B,C\_in);
+
+
+
+output \[3:0] Sum;
+
+output C\_out;
+
+
+
+input \[3:0] A,B;
+
+input C\_in;
+
+
+
+wire c1,c2,c3;
+
+
+
+fulladder fa0(Sum\[0],c1,A\[0],B\[0],C\_in);
+
+fulladder fa1(Sum\[1],c2,A\[1],B\[1],c1);
+
+fulladder fa2(Sum\[2],c3,A\[2],B\[2],c2);
+
+fulladder fa3(Sum\[3],C\_out,A\[3],B\[3],c3);
+
+
+
+endmodule
+
+```
+
+
+
+\### Full Adder Connections
+
+
+
+```text
+
+FA0:
+
+A\[0] + B\[0] + C\_in → Sum\[0] + C1
+
+
+
+FA1:
+
+A\[1] + B\[1] + C1 → Sum\[1] + C2
+
+
+
+FA2:
+
+A\[2] + B\[2] + C2 → Sum\[2] + C3
+
+
+
+FA3:
+
+A\[3] + B\[3] + C3 → Sum\[3] + C\_out
+
+```
 
 
 
@@ -372,19 +380,7 @@ A Verilog testbench was created to verify the functionality of the 4-bit Ripple 
 
 
 
-Different input combinations were tested, including:
-
-
-
-\- Normal binary addition
-
-\- Carry propagation
-
-\- Carry-in operation
-
-\- Maximum-value addition
-
-\- Addition resulting in overflow beyond 4 bits
+Different input combinations were tested, including normal addition, carry propagation, carry-in conditions, and maximum-value addition.
 
 
 
@@ -392,9 +388,9 @@ Different input combinations were tested, including:
 
 
 
-| Test | A | B | C\_in | Calculation | Expected Sum | Expected C\_out |
+| Test | A | B | C\_in | Decimal Calculation | Expected Sum | Expected C\_out |
 
-|:----:|:---:|:---:|:---:|:----------:|:------------:|:--------------:|
+|:----:|:---:|:---:|:---:|:-------------------:|:------------:|:--------------:|
 
 | 1 | `0000` | `0000` | 0 | 0 + 0 + 0 | `0000` | 0 |
 
@@ -436,11 +432,129 @@ The simulation waveform was analyzed to confirm that the generated \*\*Sum\*\* a
 
 
 
+\## 🧪 Verilog Testbench
+
+
+
+The Ripple Carry Adder was verified using a Verilog testbench with multiple input combinations.
+
+
+
+```verilog
+
+module RCAadder4\_tb;
+
+
+
+wire \[3:0] Sum;
+
+wire C\_out;
+
+
+
+reg \[3:0] A,B;
+
+reg C\_in;
+
+
+
+RCAdder4 DUT(
+
+&#x20;   .Sum(Sum),
+
+&#x20;   .C\_out(C\_out),
+
+&#x20;   .A(A),
+
+&#x20;   .B(B),
+
+&#x20;   .C\_in(C\_in)
+
+);
+
+
+
+initial begin
+
+
+
+A=4'b0000; B=4'b0000; C\_in=0;
+
+\#10;
+
+
+
+A=4'b0001; B=4'b0001; C\_in=0;
+
+\#10;
+
+
+
+A=4'b1010; B=4'b0101; C\_in=1;
+
+\#10;
+
+
+
+A=4'b1111; B=4'b1111; C\_in=1;
+
+\#10;
+
+
+
+A=4'b1111; B=4'b0001; C\_in=1;
+
+\#10;
+
+
+
+A=4'b0000; B=4'b0000; C\_in=1;
+
+\#10;
+
+
+
+A=4'b1111; B=4'b0000; C\_in=0;
+
+\#10;
+
+
+
+A=4'b0000; B=4'b0001; C\_in=0;
+
+\#10;
+
+
+
+A=4'b1010; B=4'b1010; C\_in=0;
+
+\#10;
+
+
+
+$finish;
+
+
+
+end
+
+
+
+endmodule
+
+```
+
+
+
+\---
+
+
+
 \## 🔍 Example Verification
 
 
 
-\### Example 1 — Carry Propagation
+\### Example 1 — Carry Generation
 
 
 
@@ -476,15 +590,15 @@ Binary addition:
 
 
 
-Output:
+Therefore:
 
 
 
 ```text
 
-C\_out = 1
-
 Sum   = 0000
+
+C\_out = 1
 
 ```
 
@@ -542,15 +656,15 @@ Binary addition:
 
 
 
-Output:
+Therefore:
 
 
 
 ```text
 
-C\_out = 1
-
 Sum   = 1111
+
+C\_out = 1
 
 ```
 
@@ -568,11 +682,15 @@ Decimal verification:
 
 
 
+These test cases verify that the carry correctly propagates through all four Full Adder stages.
+
+
+
 \---
 
 
 
-\## 🔌 PYNQ-Z2 Hardware Implementation
+\## 🔌 PYNQ-Z2 Hardware Mapping
 
 
 
@@ -586,11 +704,27 @@ The 4-bit Ripple Carry Adder was implemented on the \*\*PYNQ-Z2 FPGA development
 
 ```text
 
-A\[3:0] → 4 FPGA input pins
+A\[0] → FPGA Input Pin
 
-B\[3:0] → 4 FPGA input pins
+A\[1] → FPGA Input Pin
 
-C\_in   → 1 FPGA input pin
+A\[2] → FPGA Input Pin
+
+A\[3] → FPGA Input Pin
+
+
+
+B\[0] → FPGA Input Pin
+
+B\[1] → FPGA Input Pin
+
+B\[2] → FPGA Input Pin
+
+B\[3] → FPGA Input Pin
+
+
+
+C\_in → FPGA Input Pin
 
 ```
 
@@ -602,19 +736,85 @@ C\_in   → 1 FPGA input pin
 
 ```text
 
-Sum\[3:0] → 4 LEDs
+Sum\[0] → LED
 
-C\_out    → 1 LED
+Sum\[1] → LED
+
+Sum\[2] → LED
+
+Sum\[3] → LED
+
+
+
+C\_out → LED
 
 ```
 
 
 
-The physical FPGA package pins were assigned using the \*\*XDC constraints file\*\*.
+The physical FPGA package pins were assigned through the \*\*PYNQ-Z2 XDC constraints file\*\*.
 
 
 
-Different combinations of `A`, `B`, and `C\_in` were applied using the physical board inputs, and the resulting `Sum` and `C\_out` values were observed using the onboard LEDs.
+The input combinations were applied using the available board inputs, and the resulting `Sum\[3:0]` and `C\_out` outputs were observed using LEDs.
+
+
+
+\---
+
+
+
+\## 📋 XDC Pin Constraints
+
+
+
+The FPGA I/O pins were assigned using Vivado XDC constraints.
+
+
+
+```tcl
+
+set\_property -dict {PACKAGE\_PIN Y18 IOSTANDARD LVCMOS33} \[get\_ports {A\[0]}];
+
+set\_property -dict {PACKAGE\_PIN Y19 IOSTANDARD LVCMOS33} \[get\_ports {A\[1]}];
+
+set\_property -dict {PACKAGE\_PIN Y16 IOSTANDARD LVCMOS33} \[get\_ports {A\[2]}];
+
+set\_property -dict {PACKAGE\_PIN Y17 IOSTANDARD LVCMOS33} \[get\_ports {A\[3]}];
+
+
+
+set\_property -dict {PACKAGE\_PIN U18 IOSTANDARD LVCMOS33} \[get\_ports {B\[0]}];
+
+set\_property -dict {PACKAGE\_PIN U19 IOSTANDARD LVCMOS33} \[get\_ports {B\[1]}];
+
+set\_property -dict {PACKAGE\_PIN W18 IOSTANDARD LVCMOS33} \[get\_ports {B\[2]}];
+
+set\_property -dict {PACKAGE\_PIN W19 IOSTANDARD LVCMOS33} \[get\_ports {B\[3]}];
+
+
+
+set\_property -dict {PACKAGE\_PIN W14 IOSTANDARD LVCMOS33} \[get\_ports {C\_in}];
+
+
+
+set\_property -dict {PACKAGE\_PIN Y14 IOSTANDARD LVCMOS33} \[get\_ports {Sum\[0]}];
+
+set\_property -dict {PACKAGE\_PIN T11 IOSTANDARD LVCMOS33} \[get\_ports {Sum\[1]}];
+
+set\_property -dict {PACKAGE\_PIN T10 IOSTANDARD LVCMOS33} \[get\_ports {Sum\[2]}];
+
+set\_property -dict {PACKAGE\_PIN V16 IOSTANDARD LVCMOS33} \[get\_ports {Sum\[3]}];
+
+
+
+set\_property -dict {PACKAGE\_PIN V12 IOSTANDARD LVCMOS33} \[get\_ports {C\_out}];
+
+```
+
+
+
+All input and output ports were assigned FPGA package pins with the `LVCMOS33` I/O standard.
 
 
 
@@ -672,15 +872,11 @@ Verilog RTL
 
 &#x20;    ↓
 
-1-Bit Full Adder
+Full Adder Module
 
 &#x20;    ↓
 
 Module Instantiation
-
-&#x20;    ↓
-
-4-Bit Ripple Carry Adder
 
 &#x20;    ↓
 
@@ -730,9 +926,9 @@ Hardware Verification
 
 \- Understanding Ripple Carry Adder architecture
 
-\- Understanding LSB-to-MSB carry propagation
-
 \- Cascading multiple Full Adder modules
+
+\- Understanding carry propagation
 
 \- Reusing previously designed RTL modules
 
@@ -742,7 +938,7 @@ Hardware Verification
 
 \- Working with 4-bit vectors
 
-\- Understanding carry generation and propagation
+\- Understanding LSB-to-MSB carry propagation
 
 \- Creating and debugging a Verilog testbench
 
@@ -762,23 +958,85 @@ Hardware Verification
 
 
 
-\## 📐 Hardware Verification
+\## 📐 Hardware Implementation
 
 
 
-The generated bitstream was programmed onto the \*\*PYNQ-Z2 FPGA\*\*.
+The 4-bit Ripple Carry Adder was successfully programmed onto the \*\*PYNQ-Z2 FPGA\*\* using the generated bitstream.
 
 
 
-Different combinations of the 4-bit inputs were applied and the corresponding outputs were observed using the onboard LEDs.
+Different combinations of `A`, `B`, and `C\_in` were applied using the physical board inputs.
 
 
 
-The hardware results were compared with the expected results obtained during simulation.
+The resulting `Sum\[3:0]` and `C\_out` outputs were observed using the onboard LEDs.
 
 
 
-This provided practical verification that the RTL design behaved correctly on actual FPGA hardware.
+The hardware results were compared with the expected binary addition results obtained during simulation.
+
+
+
+\---
+
+
+
+\## 📊 Hardware Verification Example
+
+
+
+For the following input combination:
+
+
+
+```text
+
+A     = 1010
+
+B     = 0101
+
+C\_in  = 1
+
+```
+
+
+
+The expected result is:
+
+
+
+```text
+
+&#x20;  1010
+
+&#x20;+ 0101
+
+&#x20;+    1
+
+&#x20;-------
+
+&#x20; 10000
+
+```
+
+
+
+Hardware output:
+
+
+
+```text
+
+Sum   = 0000
+
+C\_out = 1
+
+```
+
+
+
+The result confirms that the Ripple Carry Adder correctly handles carry propagation across the four Full Adder stages.
 
 
 
@@ -794,31 +1052,67 @@ This provided practical verification that the RTL design behaved correctly on ac
 
 
 
-The \*\*4-bit Ripple Carry Adder\*\* was successfully designed using four cascaded 1-bit Full Adder instances.
+The 4-bit Ripple Carry Adder was successfully designed using four cascaded 1-bit Full Adder instances.
 
 
 
-The design was:
+The design was simulated using multiple test cases, synthesized, implemented, converted into a bitstream, programmed onto the PYNQ-Z2 FPGA, and verified using physical inputs and LEDs.
 
 
 
-\- Simulated using multiple test cases
-
-\- Verified using behavioral simulation
-
-\- Synthesized using Vivado
-
-\- Implemented on the FPGA
-
-\- Converted into a programming bitstream
-
-\- Programmed onto the PYNQ-Z2
-
-\- Verified using physical inputs and LEDs
+This project demonstrated how a previously designed 1-bit arithmetic module can be reused to construct a larger multi-bit arithmetic circuit using hierarchical RTL design.
 
 
 
-This project demonstrated how a previously designed \*\*1-bit Full Adder\*\* can be reused to construct a larger \*\*4-bit arithmetic circuit\*\* using modular and hierarchical RTL design.
+\---
+
+
+
+\## 📁 Project Structure
+
+
+
+```text
+
+Day\_05\_4Bit\_Ripple\_Carry\_Adder/
+
+│
+
+├── rtl/
+
+│   ├── fulladder.v
+
+│   └── RCAdder4.v
+
+│
+
+├── testbench/
+
+│   └── RCAadder4\_tb.v
+
+│
+
+├── constraints/
+
+│   └── constraints.xdc
+
+│
+
+├── screenshots/
+
+│   ├── simulation.png
+
+│   ├── rtl\_schematic.png
+
+│   ├── synthesized\_schematic.png
+
+│   └── hardware\_testing.jpg
+
+│
+
+└── README.md
+
+```
 
 
 
