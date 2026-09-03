@@ -1124,5 +1124,5 @@ Day\_05\_4Bit\_Ripple\_Carry\_Adder/
 
 
 
-\*\*Day 6 — 4-Bit Carry Look-Ahead Adder\*\*
+\*\*Day 6\*\*
 
